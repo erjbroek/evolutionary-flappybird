@@ -6,4 +6,7 @@ class Population:
     self.player = player.Player()
 
   def update_players(self):
-    self.player.render(config.window)
+    if self.player.alive:
+      self.player.think()
+      self.player.update(config.ground)
+      self.player.render(config.window)
