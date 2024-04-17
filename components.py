@@ -22,7 +22,7 @@ class Pipes:
     self.bottom_height = random.randint(10, 300)
     self.top_height = Ground.ground_posY - self.bottom_height - self.opening_height
     self.bottom_rect, self.top_rect = pygame.Rect(0, 0, 0, 0), pygame.Rect(0, 0, 0, 0)
-    self.passsed = False
+    self.passed = False
     self.off_screen = False
 
   def render(self, window):

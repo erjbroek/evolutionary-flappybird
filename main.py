@@ -6,7 +6,7 @@ import population
 
 pygame.init()
 clock = pygame.time.Clock()
-population = population.Population(10)
+population = population.Population(100)
 
 def quit_game():
   for event in pygame.event.get():
