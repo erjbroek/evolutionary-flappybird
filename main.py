@@ -17,7 +17,9 @@ def main():
 
     config.window.fill((0, 0, 0))
 
+    config.ground.render(config.window)
+
     clock.tick(60)
-    pygame.display.flip
+    pygame.display.flip()
 
 main()
