@@ -15,7 +15,7 @@ class Ground:
 class Pipes:
   width = 15
   opening_height = 100
-  color = (0, 255, 255)
+  color = (255, 255, 255)
 
   def __init__(self, win_width):
     self.x = win_width

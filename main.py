@@ -2,9 +2,11 @@ import pygame
 from sys import exit
 import config
 import components
+import population
 
 pygame.init()
 clock = pygame.time.Clock()
+population = population.Population()
 
 def quit_game():
   for event in pygame.event.get():
@@ -29,14 +31,14 @@ def main():
       pipes_spawn_delay = 200
     pipes_spawn_delay -= 1
 
-
     for pipe in config.pipes:
       pipe.render(config.window)
       pipe.update()
       if pipe.off_screen:
         config.pipes.remove(pipe)
 
-
+    population.update_players()
+    
     clock.tick(60)
     pygame.display.flip()
 
