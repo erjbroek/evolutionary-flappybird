@@ -37,8 +37,8 @@ class Player:
     if not (self.ground_collision(ground) or self.pipe_collision()):
       self.velocity += 0.5
       self.rect.y += self.velocity
-      if self.velocity > 7:
-        self.velocity = 7
+      if self.velocity > 5:
+        self.velocity = 5
     else:
       self.alive = False
       self.jump = False
@@ -47,7 +47,7 @@ class Player:
   def bird_jump(self):
     if not self.jump and not self.ceiling_collision():
       self.jump = True
-      self.velocity = -7
+      self.velocity = -5
     if self.velocity >= 3:
       self.jump = False
 
