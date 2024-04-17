@@ -2,11 +2,23 @@ import config
 import player
 
 class Population:
-  def __init__(self):
-    self.player = player.Player()
+  def __init__(self, size):
+    self.players = []
+    self.size = size
+    for i in range(0, self.size):
+      self.players.append(player.Player())
 
   def update_players(self):
-    if self.player.alive:
-      self.player.think()
-      self.player.update(config.ground)
-      self.player.render(config.window)
+    for player in self.players:
+      if player.alive:
+        player.think()
+        player.render(config.window)
+        player.update(config.ground)
+
+  def extinct(self):
+    extinct = True
+    for player in self.players:
+      if player.alive:
+        extinct = False
+    return extinct
+  
