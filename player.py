@@ -5,16 +5,21 @@ import config
 
 
 class Player:
-  def __init__(self):
+  def __init__(self, color = None):
+    # Bird
     self.x, self.y = 50, 200
     self.rect = pygame.Rect(self.x, self.y, 20, 20)
-    self.color = random.randint(100, 255), random.randint(100, 255), random.randint(100, 255)
-    self.velocity = 0
+    self.color = color if color else (random.randint(100, 255), random.randint(100, 255), random.randint(100, 255))
+    self.vel = 0
     self.jump = False
     self.alive = True
+    self.lifespan = 0
+    self.passed = False
 
+     # AI
     self.decision = None
     self.vision = [0.5, 1, 0.5]
+    self.fitness = 0
     self.inputs = 3
     self.brain = brain.Brain(self.inputs)
     self.brain.generate_net()
@@ -26,36 +31,38 @@ class Player:
   def ground_collision(self, ground):
     return pygame.Rect.colliderect(self.rect, ground)
   
-  def ceiling_collision(self):
-    return bool(self.y <= 30)
+  def sky_collision(self):
+    return bool(self.rect.y < 10)
   
   def pipe_collision(self):
     for pipe in config.pipes:
       return pygame.Rect.colliderect(self.rect, pipe.top_rect) or pygame.Rect.colliderect(self.rect, pipe.bottom_rect)
     
   def update(self, ground):
-    if not (self.ground_collision(ground) or self.pipe_collision()):
-      self.velocity += 0.5
-      self.rect.y += self.velocity
-      if self.velocity > 5:
-        self.velocity = 5
+    if not (self.ground_collision(ground) or self.pipe_collision() or self.sky_collision()):
+      self.vel += 0.25
+      self.rect.y += self.vel
+      if self.vel > 8:
+        self.vel = 8
+
+      self.lifespan += 1
     else:
       self.alive = False
       self.jump = False
-      self.velocity = 0
+      self.vel = 0
   
   def bird_jump(self):
-    if not self.jump and not self.ceiling_collision():
+    if not self.jump and not self.sky_collision():
       self.jump = True
-      self.velocity = -5
-    if self.velocity >= 3:
+      self.vel = -5.5
+    if self.vel >= 1.5:
       self.jump = False
 
   @staticmethod
   def closest_pipe():
-    for pipe in config.pipes:
-      if not pipe.passed:
-        return pipe
+    for p in config.pipes:
+      if not p.passed:
+        return p
 
   def look(self):
     if config.pipes:
@@ -79,3 +86,13 @@ class Player:
     self.decision = self.brain.feed_forward(self.vision)
     if self.decision > 0.73:
       self.bird_jump()
+
+  def calculate_fitness(self):
+    self.fitness = self.lifespan
+
+  def clone(self):
+    clone = Player()
+    clone.fitness = self.fitness
+    clone.brain = self.brain.clone()
+    clone.brain.generate_net()
+    return clone

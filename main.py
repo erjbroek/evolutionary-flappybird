@@ -17,6 +17,11 @@ def quit_game():
 def generate_pipe():
   config.pipes.append(components.Pipes(config.win_width))
 
+font = pygame.font.Font(None, 36)
+def render_text(surface, text, position):
+    rendered_text = font.render(text, True, (255, 255, 255))
+    surface.blit(rendered_text, position)
+
 def main():
   pipes_spawn_delay = 10
 
@@ -33,15 +38,30 @@ def main():
 
     for pipe in config.pipes:
       pipe.render(config.window)
-      pipe.update()
+      pipe.update(population)
       if pipe.off_screen:
         config.pipes.remove(pipe)
 
     if not population.extinct():
       population.update_players()
     else:
-      pass
+      config.pipes.clear()
+      population.current_score = 0
+      population.natural_selection()
     
+    generation_text = f"Generation: {population.generation}"
+    alive = 0
+    for p in population.players:
+      if p.alive:
+        alive += 1
+    amount_players = f"alive: {alive}"
+    record = f"record: {population.highest_score}"
+    current = f"current score: {population.current_score}"
+    render_text(config.window, generation_text, (20, config.win_height - 50))
+    render_text(config.window, amount_players, (20, config.win_height - 80))
+    render_text(config.window, record, (20, config.win_height - 110))
+    render_text(config.window, current, (20, config.win_height - 140))
+
     clock.tick(60)
     pygame.display.flip()
 
