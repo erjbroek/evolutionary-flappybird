@@ -5,9 +5,9 @@ import config
 
 
 class Player:
-  def __init__(self, color = None):
+  def __init__(self, color = None, posY = None):
     # Bird
-    self.x, self.y = 50, 200
+    self.x, self.y = 50, posY if posY else 200
     self.rect = pygame.Rect(self.x, self.y, 20, 20)
     self.color = color if color else (random.randint(100, 255), random.randint(100, 255), random.randint(100, 255))
     self.vel = 0
@@ -27,6 +27,10 @@ class Player:
 
   def render(self, window):
     pygame.draw.rect(window, self.color, self.rect)
+
+  def set_y(self, y):
+    self.y = y
+    self.rect.y = y
 
   def ground_collision(self, ground):
     return pygame.Rect.colliderect(self.rect, ground)
@@ -50,12 +54,13 @@ class Player:
       self.alive = False
       self.jump = False
       self.vel = 0
+      self.rect.x -= 2
   
   def bird_jump(self):
     if not self.jump and not self.sky_collision():
       self.jump = True
       self.vel = -5.5
-    if self.vel >= 1.5:
+    if self.vel >= 1.8:
       self.jump = False
 
   @staticmethod
@@ -80,7 +85,7 @@ class Player:
       #line to bottom pipe
       self.vision[2] = max(0, self.closest_pipe().bottom_rect.top - self.rect.center[1]) / 500
       pygame.draw.line(config.window, self.color, self.rect.center, 
-                      (self.rect.center[0], config.pipes[0].top_rect.bottom))
+                      (self.rect.center[0], config.pipes[0].bottom_rect.top))
 
   def think(self):
     self.decision = self.brain.feed_forward(self.vision)

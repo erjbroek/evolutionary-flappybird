@@ -19,7 +19,7 @@ def generate_pipe():
 
 font = pygame.font.Font(None, 36)
 def render_text(surface, text, position):
-    rendered_text = font.render(text, True, (255, 255, 255))
+    rendered_text = font.render(text, True, (0, 0, 0))
     surface.blit(rendered_text, position)
 
 def main():
@@ -28,7 +28,7 @@ def main():
   while True:
     quit_game()
 
-    config.window.fill((0, 0, 0))
+    config.window.fill((100, 150, 255))
     config.ground.render(config.window)
 
     if pipes_spawn_delay <= 0:
@@ -44,6 +44,10 @@ def main():
 
     if not population.extinct():
       population.update_players()
+      if population.current_score >= 20:
+        config.pipes.clear()
+        population.current_score = 0
+        population.natural_selection()
     else:
       config.pipes.clear()
       population.current_score = 0

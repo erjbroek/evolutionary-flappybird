@@ -3,6 +3,7 @@ import player
 import math
 import species
 import operator
+import random
 
 class Population:
   def __init__(self, size):
@@ -15,13 +16,17 @@ class Population:
     self.current_score = 0
     self.passed = False
     for i in range(0, self.size):
-      self.players.append(player.Player())
+      self.players.append(player.Player(None, random.randint(100, config.ground.ground_posY - 50)))
 
   def update_players(self):
     for player in self.players:
       if player.alive:
         player.look()
         player.think()
+        player.render(config.window)
+        player.update(config.ground)
+      else:
+        player.color = (100, 20, 20)
         player.render(config.window)
         player.update(config.ground)
     self.check_scores()
@@ -132,6 +137,7 @@ class Population:
     self.players = []
     for child in children:
       self.players.append(child)
+      child.set_y(random.randint(100, config.ground.ground_posY - 50))
     self.generation += 1
 
   def extinct(self):

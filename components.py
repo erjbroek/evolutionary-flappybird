@@ -1,6 +1,6 @@
 import pygame
 import random
-import population
+import config
 
 
 class Ground:
@@ -8,15 +8,18 @@ class Ground:
 
   def __init__(self, win_width):
     self.x, self.y = 0, Ground.ground_posY
-    self.rect = pygame.Rect(self.x, self.y, win_width, 5)
+    self.rect = pygame.Rect(self.x, self.y, win_width, config.win_height - self.y)
+    self.grass = pygame.Rect(self.x, self.y, win_width, 30)
 
   def render(self, window):
     pygame.draw.rect(window, (255, 255, 255), self.rect)
+    pygame.draw.rect(window, (50, 200, 100), self.grass)
+
 
 class Pipes:
-  width = 15
+  width = 55
   opening_height = 100
-  color = (255, 255, 255)
+  color = (50, 150, 50)
 
   def __init__(self, win_width):
     self.x = 550
@@ -38,10 +41,10 @@ class Pipes:
     pygame.draw.rect(window, self.color, self.top_rect)
 
   def update(self, population):
-    self.x -= 1.5
+    self.x -= 2
     if self.x + Pipes.width <= 50 and not self.passed:
       self.passed = True
-      self.color = (255, 0, 255)
+      self.color = (50, 200, 50)
       population.passed = True
 
     if self.x <= -self.width:
