@@ -7,7 +7,7 @@ import config
 class Player:
   def __init__(self, color = None, posY = None):
     # Bird
-    self.x, self.y = 50, posY if posY else 200
+    self.x, self.y = 50, 300
     self.rect = pygame.Rect(self.x, self.y, 20, 20)
     self.color = color if color else (random.randint(100, 255), random.randint(100, 255), random.randint(100, 255))
     self.vel = 0
@@ -15,9 +15,10 @@ class Player:
     self.alive = True
     self.lifespan = 0
     self.passed = False
+    self.species_index = None
 
      # AI
-    self.decision = None
+    self.decision = 0
     self.vision = [0.5, 1, 0.5]
     self.fitness = 0
     self.inputs = 3
@@ -27,6 +28,10 @@ class Player:
 
   def render(self, window):
     pygame.draw.rect(window, self.color, self.rect)
+    if self.species_index is not None and self.alive:
+      font = pygame.font.Font(None, 24)
+      text = font.render(str(self.species_index), True, (255, 255, 255))
+      window.blit(text, (self.x, self.rect.y - 30))
 
   def set_y(self, y):
     self.y = y
@@ -60,7 +65,7 @@ class Player:
     if not self.jump and not self.sky_collision():
       self.jump = True
       self.vel = -5.5
-    if self.vel >= 1.8:
+    if self.vel >= 1:
       self.jump = False
 
   @staticmethod

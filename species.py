@@ -1,5 +1,6 @@
 import operator
 import random
+import population
 class Species:
   def __init__(self, player):
     self.players = []
@@ -10,7 +11,8 @@ class Species:
     self.benchmark_brain = player.brain.clone()
     self.champion = player.clone()
     self.staleness = 0
-    self.color = random.randint(100, 255), random.randint(100, 255), random.randint(100, 255)
+    self.index = None
+    self.color = (self.champion.brain.connections[0].weight + 1 / 2) * 255, (self.champion.brain.connections[1].weight + 1 / 2) * 255, (self.champion.brain.connections[2].weight + 1 / 2) * 255
 
   def similarity(self, brain):
     # compares brain of a bird with benchmark brain of species
@@ -35,7 +37,7 @@ class Species:
   def sort_players_by_fitness(self):
     # sorts the player by fitness, and makes the player with the highest fitness the champion
     self.players.sort(key=operator.attrgetter('fitness'), reverse=True)
-    if self.players[0].fitness > self.benchmark_fitness:
+    if self.players[0].fitness >= self.benchmark_fitness:
       self.staleness = 0
       self.benchmark_fitness = self.players[0].fitness
       self.champion = self.players[0].clone()
@@ -55,7 +57,7 @@ class Species:
   def offspring(self):
     # player with index 0 is already cloned, since it's the champion
     baby = self.players[random.randint(1, len(self.players)) - 1].clone()
-
+    baby.species_index = self.index
     #mutation
     baby.brain.mutate()
     return baby

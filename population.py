@@ -4,6 +4,7 @@ import math
 import species
 import operator
 import random
+import pygame
 
 class Population:
   def __init__(self, size):
@@ -15,8 +16,9 @@ class Population:
     self.highest_score = 0
     self.current_score = 0
     self.passed = False
+    self.winner = None
     for i in range(0, self.size):
-      self.players.append(player.Player(None, random.randint(100, config.ground.ground_posY - 50)))
+      self.players.append(player.Player(None, 300))
 
   def update_players(self):
     for player in self.players:
@@ -72,12 +74,16 @@ class Population:
         if s.similarity(player.brain):
           s.add_to_species(player)
           player.color = s.color
+          player.species_index = s.index
           add_to_species = True
           break
       if not add_to_species:
         new_species = species.Species(player)
+        new_species.index = len(self.species)
+        player.species_index = new_species.index
         player.color = new_species.color
         self.species.append(new_species)
+      print("Species index:", player.species_index)
 
   def calculate_fitness(self):
     for player in self.players:
@@ -92,6 +98,7 @@ class Population:
         species_bin.append(s)
     for s in species_bin:
       self.species.remove(s)
+      self.update_species_indices()  # Update the indices after removing a species
 
   def kill_stale_species(self):
     player_bin = []
@@ -108,9 +115,8 @@ class Population:
       self.players.remove(player)
     for s in species_bin:
       self.species.remove(s)
+      self.update_species_indices()  # Update the indices after removing a species
     
-    
-
   def sort_species_by_fitness(self):
     for s in self.species:
       s.sort_players_by_fitness()
@@ -125,10 +131,11 @@ class Population:
     #clone best player from each species
     for s in self.species:
       children.append(s.champion.clone())
+      s.champion.species_index = s.index
 
     children_per_species = math.floor((self.size - len(self.species)) / len(self.species))
     for s in self.species:
-      for i in range(0, children_per_species):
+      for _ in range(0, children_per_species):
         children.append(s.offspring())
 
     while len(children) < self.size:
@@ -137,7 +144,7 @@ class Population:
     self.players = []
     for child in children:
       self.players.append(child)
-      child.set_y(random.randint(100, config.ground.ground_posY - 50))
+      child.set_y(300)
     self.generation += 1
 
   def extinct(self):
@@ -146,6 +153,10 @@ class Population:
       if player.alive:
         extinct = False
     return extinct
+  
+  def update_species_indices(self):
+    for i, s in enumerate(self.species):
+      s.index = i
   
 
   

@@ -22,7 +22,7 @@ class Pipes:
   color = (50, 150, 50)
 
   def __init__(self, win_width):
-    self.x = 550
+    self.x = 500
     self.bottom_height = random.randint(10, 300)
     self.top_height = Ground.ground_posY - self.bottom_height - self.opening_height
     self.bottom_rect, self.top_rect = pygame.Rect(0, 0, 0, 0), pygame.Rect(0, 0, 0, 0)
