@@ -17,7 +17,7 @@ def quit_game():
 def generate_pipe():
   config.pipes.append(components.Pipes(config.win_width))
 
-font = pygame.font.Font(None, 20)
+font = pygame.font.Font(None, 25)
 def render_text(surface, text, position):
     rendered_text = font.render(text, True, (0, 0, 0))
     surface.blit(rendered_text, position)
