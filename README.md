@@ -38,21 +38,21 @@ pip install pygame
 
 <br></br>
 
-# Genetic Algorithm
-How It Works
-The genetic algorithm is used to evolve the neural networks of the birds (players) over several generations to improve their performance in the game. Here's a breakdown of the process:
+**The genetic algorithm is used to evolve the neural networks of the birds (players) over several generations to improve their performance in the game. Here's a breakdown of the process:**
 
-Initialization: A population of players is initialized, each with a unique neural network.
+**Initialization:** A population of players is initialized, each with a unique neural network.
 
-Performance Evaluation: Each player (bird) navigates through the game, and their performance is evaluated based on the distance they travel and the number of pipes they successfully pass.
+**Performance Evaluation:** Each player (**bird**) navigates through the game, and their performance (fitness) is evaluated based on the distance they travel and the number of pipes they successfully pass.
 
-Selection: Players are sorted based on their performance. The higher the score, the better their chances of survival and reproduction. The top performers are selected to pass their genes to the next generation.
+**Species Classification:** Players are grouped into **species** based on the similarity of their neural networks/ weights. This helps maintain diversity in the population by ensuring that different strategies are preserved.
 
-Mutation: To maintain genetic diversity and allow the algorithm to explore new solutions, random mutations are introduced in the offspring's neural networks. This involves altering weights of each of the connections
+**Selection:** Players within each **species** are sorted based on their performance. The higher the fitness score, the better their chances of survival and reproduction. The top performers in each **species** are selected to pass their genes to the next generation.
 
-New Generation: The new generation of players is created, consisting of offspring from the top performers of the previous generation. This new generation then undergoes the same evaluation, selection, crossover, and mutation process.
+**Mutation:** To maintain genetic diversity and allow the algorithm to explore new solutions, random mutations are introduced in the offspring's neural networks. This involves changing weights.
 
-In the end, only the best performing birds will survive, and you will get a flappy bird that will fly forever.
+**New Generation:** The new generation of players is created, consisting of offspring from the top performers of each **species** from the previous generation. This new generation then undergoes the same evaluation, **species** classification, selection, **crossover**, and **mutation** process.
+
+<br></br>
 
 ## Usage
 
