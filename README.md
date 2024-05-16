@@ -38,6 +38,8 @@ pip install pygame
 
 <br></br>
 
+# Genetic algoritm
+
 **The genetic algorithm is used to evolve the neural networks of the birds (players) over several generations to improve their performance in the game. Here's a breakdown of the process:**
 
 **Initialization:** A population of players is initialized, each with a unique neural network.
