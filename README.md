@@ -38,6 +38,22 @@ pip install pygame
 
 <br></br>
 
+# Genetic Algorithm
+How It Works
+The genetic algorithm is used to evolve the neural networks of the birds (players) over several generations to improve their performance in the game. Here's a breakdown of the process:
+
+Initialization: A population of players is initialized, each with a unique neural network.
+
+Performance Evaluation: Each player (bird) navigates through the game, and their performance is evaluated based on the distance they travel and the number of pipes they successfully pass.
+
+Selection: Players are sorted based on their performance. The higher the score, the better their chances of survival and reproduction. The top performers are selected to pass their genes to the next generation.
+
+Mutation: To maintain genetic diversity and allow the algorithm to explore new solutions, random mutations are introduced in the offspring's neural networks. This involves altering weights of each of the connections
+
+New Generation: The new generation of players is created, consisting of offspring from the top performers of the previous generation. This new generation then undergoes the same evaluation, selection, crossover, and mutation process.
+
+In the end, only the best performing birds will survive, and you will get a flappy bird that will fly forever.
+
 ## Usage
 
 ### To run the game:
