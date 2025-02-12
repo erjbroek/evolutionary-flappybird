@@ -2,7 +2,7 @@
 
 This repository contains a Python implementation of a genetic algorithm applied to the Flappy Bird game using Pygame. The genetic algorithm is used to evolve a neural network that controls the bird's behavior in the game.
 
-![image of game](image.png)
+![flappy_bird_gif](https://github.com/user-attachments/assets/eca487a9-b6bb-4a69-8b0b-8bdb5a17b35b)
 
 ## Requirements
 
